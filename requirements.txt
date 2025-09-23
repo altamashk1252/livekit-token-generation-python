@@ -2,4 +2,4 @@ python-dotenv
 Flask
 livekit
 requests
-livekit-server-sdk
+livekit-api
