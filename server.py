@@ -2,7 +2,7 @@
 import os
 import uuid
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify,request
 from livekit import api
 
 # Load environment variables from .env
@@ -16,9 +16,13 @@ def get_token():
     api_secret = os.getenv("LIVEKIT_API_SECRET")
     
     # Generate a random room name using uuid
-    room_name = f"room-{uuid.uuid4().hex[:8]}"  # e.g., room-1a2b3c4d
-    identity = f"user-{uuid.uuid4().hex[:6]}"    # e.g., user-a1b2c3
-    display_name = "My Name"
+    #room_name = f"room-{uuid.uuid4().hex[:8]}"  # e.g., room-1a2b3c4d
+    #identity = f"user-{uuid.uuid4().hex[:6]}"    # e.g., user-a1b2c3
+    #display_name = "My Name"
+
+    room_name = request.args.get("room") or f"room-{uuid.uuid4().hex[:8]}"
+    identity = request.args.get("identity") or f"user-{uuid.uuid4().hex[:6]}"
+    display_name = request.args.get("name") or identity  # fallback to identity
 
     # Check if keys are set
     if not api_key or not api_secret:
